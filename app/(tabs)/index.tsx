@@ -1,75 +1,218 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
+import { Auth } from '@/components/Auth';
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { UserProfile } from '@/components/UserProfile';
+import { useKindeAuth } from '@kinde/expo';
+import { Image } from 'expo-image';
+import { useEffect, useState } from 'react';
+import { StyleSheet, ScrollView } from 'react-native';
+import { useColorScheme } from '@/hooks/useColorScheme';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
+  const kinde = useKindeAuth();
+  const [isAuth, setIsAuth] = useState(kinde.isAuthenticated);
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === 'dark';
+  const insets = useSafeAreaInsets();
+  
+  useEffect(() => {
+    setIsAuth(kinde.isAuthenticated);
+  }, [kinde.isAuthenticated]);
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
+    <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
+      <ThemedView style={[styles.container, { paddingBottom: insets.bottom + 20 }]}>
+        <ThemedText style={styles.mainHeading}>
+          Auth for modern applications
         </ThemedText>
+        
+        <ThemedView style={styles.instructionsContainer}>
+          <ThemedView style={styles.firstThingsFirst}>
+            <ThemedText style={styles.firstThingsFirstText}>
+              First things first
+            </ThemedText>
+          </ThemedView>
+          
+          <ThemedView style={styles.stepCard}>
+            <ThemedView style={styles.stepHeader}>
+              <ThemedView style={styles.stepNumber}>
+                <ThemedText style={styles.stepNumberText}>1</ThemedText>
+              </ThemedView>
+              <ThemedText style={styles.stepTitle}>Set callback URLs</ThemedText>
+            </ThemedView>
+            
+            <ThemedView style={styles.stepContent}>
+              <ThemedText style={styles.stepText}>
+                A. In Kinde, go to <ThemedText style={styles.boldText}>Settings > Applications > [Your app] > View details</ThemedText>.
+              </ThemedText>
+              
+              <ThemedText style={styles.stepText}>
+                B. Add your <ThemedText style={styles.boldText}>callback URLs</ThemedText> in the relevant fields. For example:
+              </ThemedText>
+              
+              <ThemedView style={styles.urlSection}>
+                <ThemedText style={styles.urlTitle}>Allowed callback URLs:</ThemedText>
+                <ThemedView style={styles.codeBlock}>
+                  <ThemedText style={styles.codeText}>exp://localhost:8081/--/</ThemedText>
+                  <ThemedText style={styles.codeText}>exp://192.168.X.X:8081/--/</ThemedText>
+                </ThemedView>
+              </ThemedView>
+              
+              <ThemedView style={styles.urlSection}>
+                <ThemedText style={styles.urlTitle}>Allowed logout redirect URLs:</ThemedText>
+                <ThemedView style={styles.codeBlock}>
+                  <ThemedText style={styles.codeText}>exp://localhost:8081</ThemedText>
+                  <ThemedText style={styles.codeText}>exp://192.168.X.X:8081</ThemedText>
+                </ThemedView>
+              </ThemedView>
+              
+              <ThemedText style={styles.stepText}>
+                C. Select <ThemedText style={styles.boldText}>Save</ThemedText>.
+              </ThemedText>
+            </ThemedView>
+          </ThemedView>
+          
+          <ThemedView style={styles.stepCard}>
+            <ThemedView style={styles.stepHeader}>
+              <ThemedView style={styles.stepNumber}>
+                <ThemedText style={styles.stepNumberText}>2</ThemedText>
+              </ThemedView>
+              <ThemedText style={styles.stepTitle}>Get building!</ThemedText>
+            </ThemedView>
+            
+            <ThemedView style={styles.authContainer}>
+              <Auth />
+            </ThemedView>
+          </ThemedView>
+        </ThemedView>
+        
+        {isAuth && (
+          <ThemedView style={styles.profileContainer}>
+            <UserProfile />
+          </ThemedView>
+        )}
       </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  scrollView: {
+    flex: 1,
+    backgroundColor: '#000000',
+  },
+  scrollContent: {
+    flexGrow: 1,
+  },
+  container: {
+    flex: 1,
+    padding: 20,
+    alignItems: 'center',
+    backgroundColor: '#000000',
+  },
+  mainHeading: {
+    fontSize: 42,
+    fontWeight: '700',
+    color: 'white',
+    textAlign: 'center',
+    marginTop: 40,
+    marginBottom: 60,
+    maxWidth: '80%',
+  },
+  instructionsContainer: {
+    width: '100%',
+    maxWidth: 600,
+    gap: 16,
+  },
+  firstThingsFirst: {
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  firstThingsFirstText: {
+    fontSize: 14,
+    color: 'black',
+    backgroundColor: '#f1f5f9',
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 20,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+  },
+  stepCard: {
+    borderWidth: 1,
+    borderColor: '#262626',
+    borderRadius: 12,
+    backgroundColor: '#000000',
+    overflow: 'hidden',
+    marginBottom: 20,
+  },
+  stepHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    padding: 16,
+    paddingLeft: 20,
   },
-  stepContainer: {
-    gap: 8,
+  stepNumber: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 10,
+  },
+  stepNumberText: {
+    color: 'black',
+    fontWeight: '600',
+    fontSize: 14,
+  },
+  stepTitle: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  stepContent: {
+    padding: 20,
+    paddingTop: 0,
+  },
+  stepText: {
+    color: '#94a3b8',
+    marginBottom: 16,
+    fontSize: 16,
+  },
+  boldText: {
+    fontWeight: '600',
+    color: 'white',
+  },
+  urlSection: {
+    marginBottom: 16,
+  },
+  urlTitle: {
+    color: 'white',
     marginBottom: 8,
+    fontWeight: '500',
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  codeBlock: {
+    backgroundColor: '#111827',
+    padding: 16,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#334155',
   },
+  codeText: {
+    fontFamily: 'monospace',
+    color: '#e2e8f0',
+    fontSize: 14,
+  },
+  authContainer: {
+    padding: 20,
+  },
+  profileContainer: {
+    width: '100%',
+    marginTop: 30,
+  }
 });

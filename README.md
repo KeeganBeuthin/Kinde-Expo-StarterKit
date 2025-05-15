@@ -1,50 +1,114 @@
-# Welcome to your Expo app 👋
+# Kinde Expo Starter Kit
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This starter kit helps you quickly integrate Kinde authentication into your Expo application.
 
-## Get started
+## Features
 
-1. Install dependencies
+- Complete authentication flow (login, register, logout)
+- User profile display
+- Dashboard with user information
+- Topics explorer
+- Dark/light mode support
+- Matches the style of the Next.js starter kit
 
-   ```bash
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v14 or later)
+- Expo CLI
+- Kinde account and application
+
+### Installation
+
+1. Clone this repository:
+   ```
+   git clone https://github.com/your-username/kinde-expo-starter-kit.git
+   cd kinde-expo-starter-kit
+   ```
+
+2. Install dependencies:
+   ```
    npm install
    ```
 
-2. Start the app
+3. Create a `.env` file in the root directory with your Kinde credentials:
+   ```
+   KINDE_DOMAIN=https://your-app.kinde.com
+   KINDE_CLIENT_ID=your-client-id
+   ```
 
-   ```bash
+4. Configure your Kinde application:
+   - Go to your Kinde Dashboard > Settings > Applications > [Your app] > View details
+   - Add the following callback URLs:
+     - `exp://localhost:8081/--/`
+     - `exp://192.168.X.X:8081/--/` (replace with your local IP)
+
+5. Start the application:
+   ```
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+## Project Structure
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- `/components` - Reusable UI components
+- `/screens` - Main screen components
+- `/navigation` - Navigation configuration
+- `/assets` - Images and other static assets
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Environment Variables
 
-## Get a fresh project
+- `KINDE_DOMAIN` - Your Kinde domain (e.g., https://your-app.kinde.com)
+- `KINDE_CLIENT_ID` - Your Kinde client ID
 
-When you're ready, run:
+## Available Scripts
 
-```bash
-npm run reset-project
+- `npm start` - Start the Expo development server
+- `npm run android` - Start the app on an Android emulator/device
+- `npm run ios` - Start the app on an iOS simulator/device
+- `npm run web` - Start the app in a web browser
+
+## Kinde Authentication
+
+This starter kit uses the `@kinde/expo` package to handle authentication. You can use the following methods:
+
+```javascript
+import { useKindeAuth } from "@kinde/expo";
+
+// In your component
+const { login, register, logout, isAuthenticated } = useKindeAuth();
+
+// Sign in
+await login({});
+
+// Register
+await register({});
+
+// Sign out
+await logout({ revokeToken: true });
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Additional Utilities
 
-## Learn more
+For accessing user data and permissions:
 
-To learn more about developing your project with Expo, look at the following resources:
+```javascript
+import { 
+  getUserProfile, 
+  getRoles, 
+  getPermissions 
+} from "@kinde/expo/utils";
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+// Get user profile
+const profile = await getUserProfile();
 
-## Join the community
+// Get user roles
+const roles = await getRoles();
 
-Join our community of developers creating universal apps.
+// Get user permissions
+const permissions = await getPermissions();
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## License
+
+MIT
