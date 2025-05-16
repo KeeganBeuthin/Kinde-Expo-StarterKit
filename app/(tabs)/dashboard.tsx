@@ -12,12 +12,18 @@ export default function DashboardScreen() {
   const kinde = useKindeAuth();
   const insets = useSafeAreaInsets();
   
-  // Redirect to home if not authenticated
+  // Check authentication on component mount and when auth state changes
   useEffect(() => {
     if (!kinde.isAuthenticated) {
+      // Redirect to home if not authenticated
       router.replace('/');
     }
   }, [kinde.isAuthenticated]);
+
+  // Don't render anything while checking auth
+  if (!kinde.isAuthenticated) {
+    return null;
+  }
 
   const handleLogout = async () => {
     try {
@@ -27,19 +33,20 @@ export default function DashboardScreen() {
     }
   };
 
+  // Using a similar structure to the index page that works properly
   return (
     <ScrollView 
-      style={styles.scrollView} 
+      style={styles.scrollView}
       contentContainerStyle={styles.scrollContent}
     >
-      <ThemedView style={[styles.container, { paddingBottom: insets.bottom + 20 }]}>
+      <ThemedView style={styles.container}>
         <ThemedText style={styles.mainHeading}>
-          Your authentication is all sorted!
+          Your authentication{'\n'}is all sorted!
         </ThemedText>
         
         <ThemedView style={styles.card}>
           <ThemedText style={styles.cardTitle}>User Profile</ThemedText>
-          <UserProfile />
+          <UserProfile showTitle={false} />
         </ThemedView>
         
         <ThemedView style={styles.card}>
@@ -73,21 +80,21 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
   },
   scrollContent: {
-    flexGrow: 1,
+    paddingTop: 50, // Reduced from 150 to 100
+    paddingBottom: 40,
   },
   container: {
-    flex: 1,
     padding: 16,
     alignItems: 'center',
     backgroundColor: 'black',
   },
   mainHeading: {
-    fontSize: 32,
+    fontSize: 36,
     fontWeight: '700',
     color: 'white',
     textAlign: 'center',
-    marginTop: 30,
     marginBottom: 40,
+    lineHeight: 44, // Ensuring proper line height
   },
   card: {
     width: '100%',

@@ -5,7 +5,7 @@ import { StyleSheet, Text, useColorScheme, View } from 'react-native';
 import { ThemedText } from './ThemedText';
 import { ThemedView } from './ThemedView';
 
-export function UserProfile() {
+export function UserProfile({ showTitle = false }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const colorScheme = useColorScheme();
@@ -36,7 +36,10 @@ export function UserProfile() {
 
   return (
     <ThemedView style={styles.container}>
-      <ThemedText type="subtitle">User Profile</ThemedText>
+      {showTitle && (
+        <ThemedText style={styles.title}>User Profile</ThemedText>
+      )}
+      
       {user ? (
         <View style={styles.profileContainer}>
           <View style={styles.profileRow}>
@@ -79,6 +82,12 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 20,
     gap: 16,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: 'black',
+    marginBottom: 16, 
   },
   profileContainer: {
     width: '100%',
