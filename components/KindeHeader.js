@@ -1,6 +1,5 @@
 // components/KindeHeader.js
 import { useKindeAuth } from '@kinde/expo';
-import * as Linking from 'expo-linking';
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -40,17 +39,11 @@ export function KindeHeader() {
   };
 
   return (
-    <View style={[styles.header, { paddingTop: insets.top }]}>
+    <View style={[styles.header, { paddingTop: insets.top + 4 }]}>
       <View style={styles.logoContainer}>
-        <Pressable onPress={() => Linking.openURL('https://kinde.com')} style={styles.logoButton}>
-          <Text style={styles.kindeLogo}>Kinde</Text>
-        </Pressable>
-        
+        <Text style={styles.kindeLogo}>Kinde</Text>
         <Text style={styles.divider}>/</Text>
-        
-        <Pressable onPress={() => Linking.openURL('https://expo.dev')} style={styles.logoButton}>
-          <Text style={styles.expoLogo}>Expo</Text>
-        </Pressable>
+        <Text style={styles.expoLogo}>Expo</Text>
       </View>
       
       <View style={styles.authButtons}>
@@ -80,7 +73,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 16,
-    paddingBottom: 16,
+    paddingBottom: 8,
     borderBottomWidth: 1,
     borderBottomColor: '#262626',
   },
@@ -88,47 +81,44 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  logoButton: {
-    padding: 8,
-  },
   kindeLogo: {
-    fontSize: 16,
-    fontWeight: '700',
+    fontSize: 18,
+    fontWeight: '600',
     color: 'white',
   },
   expoLogo: {
-    fontSize: 16,
-    fontWeight: '700',
+    fontSize: 18,
+    fontWeight: '600',
     color: 'white',
   },
   divider: {
     marginHorizontal: 8,
     color: '#666',
-    fontSize: 16,
+    fontSize: 18,
   },
   authButtons: {
     flexDirection: 'row',
+    alignItems: 'center',
     gap: 8,
   },
   signInButton: {
     paddingVertical: 8,
     paddingHorizontal: 12,
-    borderRadius: 6,
   },
   registerButton: {
     paddingVertical: 8,
     paddingHorizontal: 12,
     backgroundColor: 'white',
-    borderRadius: 6,
+    borderRadius: 8,
   },
   signInText: {
     color: 'white',
-    fontWeight: '600',
+    fontWeight: '500',
     fontSize: 14,
   },
   registerText: {
     color: 'black',
-    fontWeight: '600',
+    fontWeight: '500',
     fontSize: 14,
   },
 });

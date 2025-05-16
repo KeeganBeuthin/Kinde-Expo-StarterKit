@@ -1,14 +1,11 @@
 import { Auth } from '@/components/Auth';
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { UserProfile } from '@/components/UserProfile';
-import { useKindeAuth } from '@kinde/expo';
-import { Image } from 'expo-image';
-import { useEffect, useState } from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { useKindeAuth } from '@kinde/expo';
+import { useEffect, useState } from 'react';
+import { ScrollView, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
@@ -23,10 +20,13 @@ export default function HomeScreen() {
   }, [kinde.isAuthenticated]);
 
   return (
-    <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
+    <ScrollView 
+      style={styles.scrollView} 
+      contentContainerStyle={styles.scrollContent}
+    >
       <ThemedView style={[styles.container, { paddingBottom: insets.bottom + 20 }]}>
         <ThemedText style={styles.mainHeading}>
-          Auth for modern applications
+          Auth for{'\n'}modern{'\n'}applications
         </ThemedText>
         
         <ThemedView style={styles.instructionsContainer}>
@@ -36,37 +36,30 @@ export default function HomeScreen() {
             </ThemedText>
           </ThemedView>
           
-          <ThemedView style={styles.stepCard}>
+          <ThemedView style={styles.card}>
             <ThemedView style={styles.stepHeader}>
               <ThemedView style={styles.stepNumber}>
                 <ThemedText style={styles.stepNumberText}>1</ThemedText>
               </ThemedView>
-              <ThemedText style={styles.stepTitle}>Set callback URLs</ThemedText>
             </ThemedView>
             
             <ThemedView style={styles.stepContent}>
               <ThemedText style={styles.stepText}>
-                A. In Kinde, go to <ThemedText style={styles.boldText}>Settings > Applications > [Your app] > View details</ThemedText>.
+                A. In Kinde, go to <ThemedText style={styles.boldText}>Settings {'>'} Applications {'>'} [Your app] {'>'} View details</ThemedText>.
               </ThemedText>
               
               <ThemedText style={styles.stepText}>
                 B. Add your <ThemedText style={styles.boldText}>callback URLs</ThemedText> in the relevant fields. For example:
               </ThemedText>
               
-              <ThemedView style={styles.urlSection}>
-                <ThemedText style={styles.urlTitle}>Allowed callback URLs:</ThemedText>
-                <ThemedView style={styles.codeBlock}>
-                  <ThemedText style={styles.codeText}>exp://localhost:8081/--/</ThemedText>
-                  <ThemedText style={styles.codeText}>exp://192.168.X.X:8081/--/</ThemedText>
-                </ThemedView>
+              <ThemedView style={styles.codeBlock}>
+                <ThemedText style={styles.codeText}>exp://localhost:8081/--/</ThemedText>
+                <ThemedText style={styles.codeText}>exp://192.168.X.X:8081/--/</ThemedText>
               </ThemedView>
               
-              <ThemedView style={styles.urlSection}>
-                <ThemedText style={styles.urlTitle}>Allowed logout redirect URLs:</ThemedText>
-                <ThemedView style={styles.codeBlock}>
-                  <ThemedText style={styles.codeText}>exp://localhost:8081</ThemedText>
-                  <ThemedText style={styles.codeText}>exp://192.168.X.X:8081</ThemedText>
-                </ThemedView>
+              <ThemedView style={styles.codeBlock}>
+                <ThemedText style={styles.codeText}>exp://localhost:8081</ThemedText>
+                <ThemedText style={styles.codeText}>exp://192.168.X.X:8081</ThemedText>
               </ThemedView>
               
               <ThemedText style={styles.stepText}>
@@ -75,7 +68,7 @@ export default function HomeScreen() {
             </ThemedView>
           </ThemedView>
           
-          <ThemedView style={styles.stepCard}>
+          <ThemedView style={styles.card}>
             <ThemedView style={styles.stepHeader}>
               <ThemedView style={styles.stepNumber}>
                 <ThemedText style={styles.stepNumberText}>2</ThemedText>
@@ -102,34 +95,33 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
-    backgroundColor: '#000000',
+    backgroundColor: 'black',
   },
   scrollContent: {
     flexGrow: 1,
   },
   container: {
     flex: 1,
-    padding: 20,
+    padding: 16,
     alignItems: 'center',
-    backgroundColor: '#000000',
+    backgroundColor: 'black',
   },
   mainHeading: {
-    fontSize: 42,
+    fontSize: 38,
     fontWeight: '700',
     color: 'white',
     textAlign: 'center',
-    marginTop: 40,
-    marginBottom: 60,
-    maxWidth: '80%',
+    marginTop: 30,
+    marginBottom: 40,
+    lineHeight: 42,
   },
   instructionsContainer: {
     width: '100%',
-    maxWidth: 600,
-    gap: 16,
+    gap: 12,
   },
   firstThingsFirst: {
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: 10,
   },
   firstThingsFirstText: {
     fontSize: 14,
@@ -138,70 +130,57 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: 20,
-    overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: '#e2e8f0',
   },
-  stepCard: {
+  card: {
     borderWidth: 1,
     borderColor: '#262626',
     borderRadius: 12,
-    backgroundColor: '#000000',
+    backgroundColor: 'white',
     overflow: 'hidden',
-    marginBottom: 20,
+    marginBottom: 16,
   },
   stepHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 16,
-    paddingLeft: 20,
+    paddingHorizontal: 16,
+    paddingTop: 16,
   },
   stepNumber: {
     width: 28,
     height: 28,
     borderRadius: 14,
-    backgroundColor: 'white',
+    backgroundColor: 'black',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 10,
   },
   stepNumberText: {
-    color: 'black',
+    color: 'white',
     fontWeight: '600',
     fontSize: 14,
   },
   stepTitle: {
-    color: 'white',
-    fontSize: 18,
+    color: 'black',
+    fontSize: 16,
     fontWeight: '600',
+    marginLeft: 8,
   },
   stepContent: {
-    padding: 20,
-    paddingTop: 0,
+    padding: 16,
   },
   stepText: {
-    color: '#94a3b8',
+    color: '#64748b',
     marginBottom: 16,
-    fontSize: 16,
+    fontSize: 14,
   },
   boldText: {
     fontWeight: '600',
-    color: 'white',
-  },
-  urlSection: {
-    marginBottom: 16,
-  },
-  urlTitle: {
-    color: 'white',
-    marginBottom: 8,
-    fontWeight: '500',
+    color: 'black',
   },
   codeBlock: {
     backgroundColor: '#111827',
     padding: 16,
     borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#334155',
+    marginBottom: 16,
   },
   codeText: {
     fontFamily: 'monospace',
@@ -209,10 +188,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   authContainer: {
-    padding: 20,
+    padding: 16,
   },
   profileContainer: {
     width: '100%',
-    marginTop: 30,
+    marginTop: 20,
   }
 });

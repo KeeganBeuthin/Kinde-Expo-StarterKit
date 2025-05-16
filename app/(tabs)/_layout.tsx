@@ -1,7 +1,7 @@
 import { useKindeAuth } from '@kinde/expo';
 import { Tabs } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 
 import { HapticTab } from '@/components/HapticTab';
 import { KindeHeader } from '@/components/KindeHeader';
@@ -22,57 +22,51 @@ export default function TabLayout() {
   }, [kinde.isAuthenticated]);
 
   return (
-    <View style={styles.container}>
-      <KindeHeader />
-      <Tabs
-        screenOptions={{
-          tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-          headerShown: false,
-          tabBarButton: HapticTab,
-          tabBarBackground: TabBarBackground,
-          tabBarStyle: [
-            styles.tabBar,
-            Platform.select({
-              ios: {
-                position: 'absolute',
-              },
-              default: {},
-            }),
-          ],
-        }}>
+    <Tabs
+      screenOptions={{
+        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        headerShown: true,
+        header: () => <KindeHeader />,
+        tabBarButton: HapticTab,
+        tabBarBackground: TabBarBackground,
+        tabBarStyle: [
+          styles.tabBar,
+          Platform.select({
+            ios: {
+              position: 'absolute',
+            },
+            default: {},
+          }),
+        ],
+      }}>
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: 'Home',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="explore"
+        options={{
+          title: 'Explore',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+        }}
+      />
+      {isAuth && (
         <Tabs.Screen
-          name="index"
+          name="profile"
           options={{
-            title: 'Home',
-            tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+            title: 'Profile',
+            tabBarIcon: ({ color }) => <IconSymbol size={28} name="person.fill" color={color} />,
           }}
         />
-        <Tabs.Screen
-          name="explore"
-          options={{
-            title: 'Explore',
-            tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
-          }}
-        />
-        {isAuth && (
-          <Tabs.Screen
-            name="profile"
-            options={{
-              title: 'Profile',
-              tabBarIcon: ({ color }) => <IconSymbol size={28} name="person.fill" color={color} />,
-            }}
-          />
-        )}
-      </Tabs>
-    </View>
+      )}
+    </Tabs>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#000000',
-  },
   tabBar: {
     backgroundColor: '#000000',
     borderTopColor: '#262626',

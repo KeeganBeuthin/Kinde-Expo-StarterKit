@@ -1,12 +1,10 @@
 // components/Auth.tsx
-import { useTheming } from '@/hooks/useTheming';
 import { useKindeAuth } from '@kinde/expo';
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 export function Auth() {
   const kinde = useKindeAuth();
-  const { colors } = useTheming();
 
   const handleSignIn = async () => {
     try {
@@ -41,24 +39,24 @@ export function Auth() {
   return !kinde.isAuthenticated ? (
     <View style={styles.buttonContainer}>
       <Pressable
-        style={[styles.button, styles.loginButton]}
+        style={styles.signInButton}
         onPress={handleSignIn}
       >
-        <Text style={styles.loginButtonText}>Sign in</Text>
+        <Text style={styles.signInText}>Sign in</Text>
       </Pressable>
       <Pressable
-        style={[styles.button, styles.registerButton]}
+        style={styles.registerButton}
         onPress={handleSignUp}
       >
-        <Text style={styles.registerButtonText}>Register</Text>
+        <Text style={styles.registerText}>Register</Text>
       </Pressable>
     </View>
   ) : (
     <Pressable
-      style={[styles.button, styles.logoutButton]}
+      style={styles.logoutButton}
       onPress={handleLogout}
     >
-      <Text style={styles.logoutButtonText}>Log out</Text>
+      <Text style={styles.logoutText}>Log out</Text>
     </Pressable>
   );
 }
@@ -66,44 +64,43 @@ export function Auth() {
 const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
     gap: 12,
-    justifyContent: 'center',
     width: '100%',
   },
-  button: {
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    minHeight: 46,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  loginButton: {
-    backgroundColor: 'transparent',
-    borderWidth: 1,
-    borderColor: '#334155',
+  signInButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 16,
   },
   registerButton: {
     backgroundColor: 'white',
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
   },
   logoutButton: {
     backgroundColor: 'white',
-    alignSelf: 'center',
-    paddingHorizontal: 32,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    alignSelf: 'flex-end',
   },
-  loginButtonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  registerButtonText: {
+  signInText: {
     color: 'black',
-    fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '500',
+    fontSize: 14,
   },
-  logoutButtonText: {
+  registerText: {
     color: 'black',
-    fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '500',
+    fontSize: 14,
+  },
+  logoutText: {
+    color: 'black',
+    fontWeight: '500',
+    fontSize: 14,
   }
 });
