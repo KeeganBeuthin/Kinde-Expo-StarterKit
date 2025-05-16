@@ -1,5 +1,6 @@
 // components/Auth.tsx
 import { useKindeAuth } from '@kinde/expo';
+import { router } from 'expo-router';
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
@@ -11,6 +12,7 @@ export function Auth() {
       const token = await kinde.login({});
       if (token) {
         console.log('User signed in successfully', token);
+        router.replace('/dashboard');
       }
     } catch (error) {
       console.error('Sign in error:', error);
@@ -22,6 +24,7 @@ export function Auth() {
       const token = await kinde.register({});
       if (token) {
         console.log('User registered successfully', token);
+        router.replace('/dashboard');
       }
     } catch (error) {
       console.error('Sign up error:', error);
@@ -31,6 +34,7 @@ export function Auth() {
   const handleLogout = async () => {
     try {
       await kinde.logout({ revokeToken: true });
+      router.replace('/');
     } catch (error) {
       console.error('Logout error:', error);
     }

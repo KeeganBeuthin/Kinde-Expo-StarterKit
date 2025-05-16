@@ -1,9 +1,9 @@
 import { Auth } from '@/components/Auth';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { UserProfile } from '@/components/UserProfile';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useKindeAuth } from '@kinde/expo';
+import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -17,6 +17,11 @@ export default function HomeScreen() {
   
   useEffect(() => {
     setIsAuth(kinde.isAuthenticated);
+    
+    // Redirect to dashboard if already authenticated
+    if (kinde.isAuthenticated) {
+      router.replace('/dashboard');
+    }
   }, [kinde.isAuthenticated]);
 
   return (
@@ -81,12 +86,6 @@ export default function HomeScreen() {
             </ThemedView>
           </ThemedView>
         </ThemedView>
-        
-        {isAuth && (
-          <ThemedView style={styles.profileContainer}>
-            <UserProfile />
-          </ThemedView>
-        )}
       </ThemedView>
     </ScrollView>
   );
@@ -189,9 +188,5 @@ const styles = StyleSheet.create({
   },
   authContainer: {
     padding: 16,
-  },
-  profileContainer: {
-    width: '100%',
-    marginTop: 20,
   }
 });
